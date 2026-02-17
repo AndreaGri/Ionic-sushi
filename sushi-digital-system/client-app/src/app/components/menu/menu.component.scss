@@ -1,0 +1,72 @@
+// Navbar e Header
+ion-header {
+  background: #1a1a1a;
+}
+
+ion-toolbar {
+  --background: #1a1a1a;
+  --color: white;
+  border-bottom: 1px solid #333;
+}
+
+ion-title {
+  font-weight: 800;
+  color: white !important;
+  .highlight { color: #eb445a; }
+}
+
+ion-chip {
+  --background: #333;
+  --color: white;
+  ion-label { color: white !important; }
+}
+
+// Segmenti (Tab Menu / Ordini)
+ion-segment {
+  background: #1a1a1a;
+  --background: #1a1a1a;
+  ion-segment-button {
+    --color: #999;
+    --color-checked: #eb445a;
+    --indicator-color: #eb445a;
+    ion-label { color: inherit !important; font-weight: bold; }
+  }
+}
+
+// Body
+.sushi-bg { --background: #f8f9fa; }
+
+.category-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 20px 16px 10px;
+  display: flex;
+  align-items: center;
+  &::before {
+    content: ''; width: 4px; height: 18px; background: #eb445a; margin-right: 8px; border-radius: 2px;
+  }
+}
+
+.sushi-item {
+  margin: 10px 16px;
+  --background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  .food-thumb { --border-radius: 12px; width: 75px; height: 75px; margin: 5px; }
+  h3 { font-weight: 700; color: #222; }
+  .price { color: #2ecc71; font-weight: 700; }
+}
+
+// Ordini Tavolo
+.order-card {
+  margin: 10px;
+  border-radius: 15px;
+  background: white;
+  ion-card-subtitle { color: #666; font-weight: bold; b { color: #eb445a; } }
+  ion-card-title { font-size: 0.9rem; font-weight: bold; }
+}
+
+.status-pending { color: #f39c12; }
+.status-preparing { color: #3498db; }
+.status-delivered { color: #2ecc71; }

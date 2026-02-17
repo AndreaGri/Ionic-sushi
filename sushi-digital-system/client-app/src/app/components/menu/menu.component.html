@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="dark">
+    <ion-title>Tavolo <span class="highlight">{{ data.table() }}</span></ion-title>
+    <ion-buttons slot="end">
+      <ion-chip color="light">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>{{ data.user() }}</ion-label>
+      </ion-chip>
+    </ion-buttons>
+  </ion-toolbar>
+  
+  <ion-segment [(ngModel)]="view" (ionChange)="segmentChanged()" color="danger">
+    <ion-segment-button value="menu">
+      <ion-label>Menù</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="status">
+      <ion-label>Ordini Tavolo</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="sushi-bg">
+  
+  @if (view === 'menu') {
+    @for (cat of categories(); track cat) {
+      <div class="category-section">
+        <h2 class="category-title">{{ cat }}</h2>
+        <ion-list lines="none" class="transparent-list">
+          @for (p of menuByCategory(cat); track p.id) {
+            <ion-item class="sushi-item">
+              <ion-thumbnail slot="start" class="food-thumb">
+                <img [src]="p.image_url" />
+              </ion-thumbnail>
+              <ion-label>
+                <h3>{{ p.name }}</h3>
+                <p class="price">{{ p.price | currency:'EUR' }}</p>
+              </ion-label>
+              <ion-button slot="end" fill="clear" (click)="data.addToCart(p)" class="add-btn">
+                <ion-icon name="add-circle" color="danger"></ion-icon>
+              </ion-button>
+            </ion-item>
+          }
+        </ion-list>
+      </div>
+    }
+  } @else {
+    <div class="ion-padding">
+      <h2 class="section-title">Comande Attive</h2>
+      @for (o of data.tableOrders(); track o.id) {
+        <ion-card class="order-card">
+          <ion-card-header>
+            <ion-card-subtitle>{{ o.created_at | date:'HH:mm' }} - <b>{{ o.customer_name }}</b></ion-card-subtitle>
+            <ion-card-title>Stato: <span [class]="'status-' + o.status">{{ o.status }}</span></ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            {{ o.details }}
+          </ion-card-content>
+        </ion-card>
+      } @empty {
+        <div class="empty-state">
+          <ion-icon name="restaurant-outline"></ion-icon>
+          <p>Nessun ordine inviato da questo tavolo.</p>
+        </div>
+      }
+    </div>
+  }
+</ion-content>
+
+@if (view === 'menu' && data.cart().length > 0) {
+  <ion-footer class="ion-no-border">
+    <div class="cart-footer">
+      <div class="info">
+        <span class="count">{{ data.cartCount() }} prodotti</span>
+        <span class="total">{{ data.cartTotal() | currency:'EUR' }}</span>
+      </div>
+      <ion-button color="danger" (click)="inviaOrdine()" class="order-btn">
+        CONFERMA ORDINE
+      </ion-button>
+    </div>
+  </ion-footer>
+}
